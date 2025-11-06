@@ -1,7 +1,7 @@
 ﻿inkwall.io - Architecture Overview
 
 
-Goal: a multi-page mural (discrete pages/tiles), everyone draws vector strokes, contributions are live and durable, anonymous presence is visible, and contributions are rate-limited (e.g., 1 contribution per hour per page). No custom WebSocket server to maintain, use Supabase realtime and Edge functions to handle broadcasts and server-side enforcement.
+Goal: a multi-page mural (discrete pages/tiles), everyone draws vector strokes, contributions are live and durable, anonymous presence is visible, and contributions are rate-limited (e.g., 1 contribution per second per page). No custom WebSocket server to maintain, use Supabase realtime and Edge functions to handle broadcasts and server-side enforcement.
 
 
 
@@ -156,7 +156,7 @@ Durability & snapshots
 Responsibilities
 
 
-* Enforce server-side rate limits / cooldowns (one contribution per hour per page).
+* Enforce server-side rate limits / cooldowns (one contribution per second per page).
 
 
 * Provide authenticated RPC for insertion (atomic check → insert).
@@ -169,9 +169,6 @@ Responsibilities
 
 
 Implementation patterns
-
-
-Two approaches:
 
 
 * Postgres RPC function (PL/pgSQL) that atomically checks last stroke time for a session & page and inserts if permitted. This keeps logic entirely in the DB and is atomic.
@@ -345,20 +342,21 @@ Complexity tradeoff: Using Supabase removes the need to operate a WebSocket serv
 Developer checklist
 
 
-Supabase project + create schema (pages, sessions, strokes).
+Supabase project + create schema (pages, sessions, strokes) - in progress
 
 
-Frontend scaffold (React + react-konva) with local free drawing, zoom/pan, and optimistic render.
+Frontend scaffold (React + react-konva) with local free drawing, zoom/pan, and optimistic render - need
 
 
-Edge Function / RPC that enforces 1-hour cooldown and inserts strokes atomically.
+Edge Function / RPC that enforces 1-hour cooldown and inserts strokes atomically - need
 
 
-Subscriptions for strokes and sessions on the client to render live updates and presence.
+Subscriptions for strokes and sessions on the client to render live updates and presence - need
 
 
-Snapshot export to Storage and snapshot-based page bootstrap (snapshot + replay deltas).
+Snapshot export to Storage and snapshot-based page bootstrap (snapshot + replay deltas) - need
 
 
-Basic admin UI for a simple rate-limit dashboard.
+Basic admin UI for a simple rate-limit dashboard (optional) - need
+
 
