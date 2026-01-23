@@ -21,10 +21,7 @@ Core components (top → bottom):
 * Edge Functions (Supabase Functions) — atomic rate-limited inserts and moderation endpoints.
 
 
-* Storage & CDN (Supabase Storage + Vercel/Cloudflare CDN) — page snapshots (fast initial load).
-
-
-* Observability (basic metrics / logging) — simple dashboards + error reporting.
+* Storage & CDN (Supabase Storage) — page snapshots (fast initial load).
 
 
 (Why Supabase + Edge functions? You get Postgres durability + a hosted realtime stream so you don’t run a WebSocket server yourself; Edge functions let you run small server logic (rate-limiting, auth checks) close to users.) 
@@ -358,5 +355,6 @@ Snapshot export to Storage and snapshot-based page bootstrap (snapshot + replay 
 
 
 Basic admin UI for a simple rate-limit dashboard (optional) - need
+
 
 
